@@ -5,6 +5,7 @@ from enum import Enum
 #Pydantic
 from pydantic import BaseModel
 from pydantic import Field
+from pydantic.networks import EmailStr
 
 #FastAPI
 from fastapi import FastAPI
@@ -22,9 +23,21 @@ class HairColor(Enum):
     red = "red"
 
 class Location(BaseModel):
-    city: str
-    state: str
-    country: str
+    city: str = Field(
+        ...,
+        min_length=1,
+        max_length=50
+    )
+    state: str = Field(
+        ...,
+        min_length=1,
+        max_length=50
+    )
+    country: str = Field(
+        ...,
+        min_length=1,
+        max_length=50
+    )
 
 class Person(BaseModel):
     first_name: str = Field(
@@ -42,8 +55,15 @@ class Person(BaseModel):
         gt=0,
         le=115
     )
-    hair_color: Optional[HairColor] = Field(default=None)
-    is_married: Optional[bool] = Field(default=None)
+    hair_color: Optional[HairColor] = Field(
+        default=None
+        )
+    is_married: Optional[bool] = Field(
+        default=None
+        )
+    email:str = EmailStr(
+        ...
+        )
 
 @app.get("/")
 def home():
