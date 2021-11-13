@@ -26,37 +26,44 @@ class Location(BaseModel):
     city: str = Field(
         ...,
         min_length=1,
-        max_length=50
+        max_length=50,
+        example="Puerto Montt"
     )
     state: str = Field(
         ...,
         min_length=1,
-        max_length=50
+        max_length=50,
+        example="Los Lagos"
     )
     country: str = Field(
         ...,
         min_length=1,
-        max_length=50
+        max_length=50,
+        example="Chile"
     )
 
 class Person(BaseModel):
     first_name: str = Field(
         ...,
         min_length=1,
-        max_length=50
+        max_length=50,
+        example="Giocrisrai"
         )
     last_name: str = Field(
         ...,
         min_length=1,
-        max_length=50
+        max_length=50,
+        example="Godoy"
         )
     age: int = Field(
         ...,
         gt=0,
-        le=115
+        le=115,
+        example=30
     )
     hair_color: Optional[HairColor] = Field(
-        default=None
+        default=None,
+        example=HairColor.black
         )
     is_married: Optional[bool] = Field(
         default=None
@@ -64,6 +71,18 @@ class Person(BaseModel):
     email:str = EmailStr(
         ...
         )
+    
+    #class Config:
+    #    schema_extra = {
+    #        "example": {
+    #            "first_name": "Giocrisrai",
+    #            "last_name": "Godoy Bonillo",
+    #            "age": 30,
+    #            "hair_color": "black",
+    #            "is_married": False,
+    #            "email": "contact@giocrisrai.com"
+    #        }
+    #    }
 
 @app.get("/")
 def home():
@@ -118,8 +137,9 @@ def update_person(
         gt=0
     ),
     person: Person = Body(...),
-    Location: Location = Body(...)
+    #Location: Location = Body(...)
 ):
-    results = person.dict()
-    results.update(Location.dict())
-    return results
+    #results = person.dict()
+    #results.update(Location.dict())
+    #return results
+    return person
